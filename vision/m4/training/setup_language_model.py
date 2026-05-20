@@ -8,6 +8,8 @@ from m4.models.vllama3.configuration_vllama3 import VLlama3Config
 from m4.models.vllama3.modeling_vllama3 import VLlama3ForCausalLM
 from m4.models.vmistral.configuration_vmistral import VMistralConfig
 from m4.models.vmistral.modeling_vmistral import VMistralForCausalLM
+from m4.models.modernvbertko.configuration_modernvbertko import ModernVBertKoConfig
+from m4.models.modernvbertko.modeling_modernvbertko import ModernVBertKoForMaskedLM
 
 
 model_name2classes = {
@@ -16,6 +18,10 @@ model_name2classes = {
     r"mistral": [VMistralConfig, VMistralForCausalLM],
     r"llama": [VLlama3Config, VLlama3ForCausalLM],
     r"smollm": [VLlama3Config, VLlama3ForCausalLM],
+    r"modernvbertko|modernvbert-ko|a\.x-encoder|skt/a\.x": [
+        ModernVBertKoConfig,
+        ModernVBertKoForMaskedLM,
+    ],
 }
 
 
