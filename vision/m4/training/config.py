@@ -461,6 +461,19 @@ class Parameters(Serializable):
                 # Allow a tolerance for floating points rounding errors.
                 raise ValueError("proba_interleaving_dataset must sum to 1")
 
+        freeze_config = self.hparams.model_config.get("freeze_config")
+        if isinstance(freeze_config, dict):
+            # ModernVBERT-style configs keep freeze knobs under model_config.freeze_config,
+            # while this m4 fork historically reads the flat keys below during LoRA validation.
+            for key in (
+                "freeze_lm_head",
+                "freeze_text_layers",
+                "freeze_text_module_exceptions",
+                "freeze_vision_layers",
+                "freeze_vision_module_exceptions",
+            ):
+                self.hparams.model_config.setdefault(key, freeze_config.get(key))
+
         if self.hparams.use_lora:
             has_vision_lora = any(["vision" in pattern for pattern in self.hparams.patterns_to_loraify])
             has_text_lora = any(["model.layers" in pattern for pattern in self.hparams.patterns_to_loraify])
